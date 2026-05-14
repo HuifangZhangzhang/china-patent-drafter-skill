@@ -1,6 +1,6 @@
 ---
 name: china-patent-drafter
-description: Use when the user asks to write, draft, optimize, review, or generate Chinese invention patent materials, Chinese patents, invention patents, patent specifications, claims, abstracts, embodiments, abstract drawings, or complete patent application documents from a technical solution, innovation point, experiment result, program logic, calculation method, device structure, system architecture, algorithm, engineering process, cooling/heat-transfer/spray/LBM/nuclear thermal-hydraulic scenario, or application use case.
+description: Use when the user asks to write, draft, optimize, review, package, or generate Chinese invention patent materials, Chinese patents, invention patents, patent specifications, claims, abstracts, embodiments, abstract drawings, final Word/DOCX patent documents, editable equations, or complete patent application files from a technical solution, innovation point, experiment result, program logic, calculation method, device structure, system architecture, algorithm, engineering process, cooling/heat-transfer/spray/LBM/nuclear thermal-hydraulic scenario, or application use case.
 ---
 
 # China Patent Drafter
@@ -28,6 +28,18 @@ For a complete drafting request, output a full Chinese invention patent applicat
 5. 摘要图
 6. 可进一步强化的保护点建议
 7. 专业审查提示
+
+For a complete final-delivery request, also generate a final `.docx` Word document, not only Markdown text. The final Word version should include the same patent content plus all required figures, result plots, captions, figure-number references, and editable equations when formulas are involved.
+
+Default file layout for complete deliverables:
+
+```text
+temp/patent_documents/<invention_slug>/<invention_slug>_draft.md
+temp/patent_documents/<invention_slug>/<invention_slug>_final.docx
+temp/patent_documents/<invention_slug>/figures/
+temp/patent_documents/<invention_slug>/scripts/
+temp/patent_documents/<invention_slug>/rendered_pages/
+```
 
 If the user asks only for claims, abstract, optimization, or review, provide the requested part but still apply the same extraction, support, and non-fabrication rules.
 
@@ -103,6 +115,22 @@ Do this only when the disclosure supports those categories.
 ### 4. Draft the Full Patent Text
 
 Use formal Chinese patent style. Avoid marketing language and conversational phrasing.
+
+When the user asks for a final filing-style document, create both:
+
+1. a readable drafting version in Markdown for quick review;
+2. a final Word `.docx` version with formal patent-document ordering, headings, figures, equations, and result plots.
+
+The Word version must at least include:
+
+- 发明名称;
+- 摘要;
+- 权利要求书;
+- 有益效果;
+- 说明书, including 技术领域, 背景技术, 发明内容, 附图说明, and 具体实施方式/具体实施方案;
+- 摘要图 and other necessary figures;
+- result figures, tables, or implementation-result descriptions when the user provides or requests them;
+- formulas, variables, and calculation relationships in editable equation form when possible.
 
 #### 发明名称
 
@@ -214,7 +242,42 @@ If file creation or plotting tools are not available, output:
 2. a Mermaid diagram or simple ASCII layout,
 3. Python code that the user can run later.
 
-### 6. Handle Technical Domains
+### 6. Generate the Final Word Document
+
+When a complete patent draft is requested, generate a final `.docx` document after the text and figures are ready. Use the local document-generation workflow available in the environment; if a Documents/DOCX skill or renderer is available, use it and render the result for visual QA.
+
+Word document requirements:
+
+- Use a clean formal patent style with clear Chinese headings and sequential numbering.
+- Preserve the complete patent structure: 摘要, 权利要求书, 有益效果, 说明书, 技术领域, 背景技术, 发明内容, 附图说明, 具体实施方式/具体实施方案, figures, and result sections when applicable.
+- Insert generated abstract drawings, flowcharts, result plots, and structural diagrams as actual images with captions and matching references in 附图说明 and 具体实施方式.
+- Keep figure numbers, step numbers, claim terms, and component labels consistent across the Word file.
+- Save the final Word file as `temp/patent_documents/<invention_slug>/<invention_slug>_final.docx`.
+- Save image files and plotting scripts under the same document folder so the result is reproducible.
+- Render the DOCX to page images when tools permit and inspect the pages before delivery. Fix clipping, missing glyphs, broken tables, unreadable formulas, overlapping images, or layout gaps before considering the Word version final.
+
+Formula and equation requirements:
+
+- Do not insert formulas as garbled text, mojibake, screenshots of text, or ambiguous plain strings.
+- Prefer Word-native editable equations using Office Math Markup Language (OMML) or another Word equation-editor compatible representation.
+- If MathType is available or explicitly requested, use a MathType-compatible equation format. If MathType is not available, use Word's built-in equation editor format rather than rasterizing formulas.
+- Keep a readable plain-text explanation of each important formula near the equation when it improves clarity, but the formula itself should remain editable in Word whenever possible.
+- For variables and symbols, define meanings, units, and optional ranges in the specification. Do not invent units or parameter values not supplied by the user.
+- If the environment cannot create editable Word equations, clearly state the limitation and provide the equation source in LaTeX/MathML plus a non-garbled Word-safe fallback; do not silently ship corrupted equations.
+
+### 7. Use Granted Patent References Carefully
+
+When the user asks for filing-style formatting or when the expected structure is uncertain, consult official or reputable Chinese patent sources when network access is available. Suitable references include CNIPA patent publication/announcement resources, Chinese patent search platforms, and already granted Chinese invention patents in the relevant technical area.
+
+Use granted patents only as formatting and drafting-style references:
+
+- Study section ordering, claim phrasing, figure captions, abstract wording, and embodiment depth.
+- Do not copy claim language, embodiments, drawings, or proprietary technical content from another patent.
+- Do not imply that a reference patent proves patentability of the user's invention.
+- Cite or list the reference patent publication numbers or URLs consulted when the user asks for source transparency.
+- If no web access is available, proceed from the skill's built-in structure and state that external granted-patent style references were not checked in the current run.
+
+### 8. Handle Technical Domains
 
 #### Method Patents
 
@@ -310,6 +373,11 @@ Before finalizing, verify:
 - Every claim term is supported by the specification.
 - The abstract drawing is generated, specified, or accompanied by reproducible code.
 - Any Python-generated patent figure/result plot has saved code and saved output paths when tools permit.
+- A final `.docx` Word version is generated for complete final-delivery requests.
+- The Word version includes abstract, claims, beneficial effects, specification sections, figures, result plots/tables when applicable, and all required captions/references.
+- Formulas in the Word version are editable Word equations/OMML or MathType-compatible objects when possible, and no formula appears as乱码, corrupted encoding, or unreadable pasted text.
+- The Word document has been rendered and visually checked when DOCX rendering tools are available.
+- Granted Chinese patent references or official/reputable patent sources are consulted for style when requested or when format uncertainty matters; any unavailable source check is stated.
 - Unprovided data is not presented as measured or proven.
 - The final text includes attorney/patent-agent review notice.
 
