@@ -76,6 +76,8 @@ Requirements for the claim set:
 - Generate 6-12 dependent claims unless the user requests a different number or the disclosure is too thin.
 - The independent claim should cover the core inventive concept without being narrowed to one prototype, one test condition, one exact parameter, or one implementation language.
 - Dependent claims should progressively limit parameters, structures, steps, calculation relationships, control logic, materials, boundary conditions, working conditions, data sources, model modules, or application objects.
+- For method patents, especially calculation, simulation, control, optimization, and algorithmic methods, the independent claim must recite concrete executable steps rather than only a desired function. Prefer step labels such as S1-S5 in the specification and mirror their essential features in Claim 1.
+- For calculation-method patents, dependent claims should narrow input variables, preprocessing, governing equations or update rules, iterative convergence/stability criteria, parameter correction, output indicators, validation routes, or technical application objects.
 - Use Chinese patent claim expressions such as“其特征在于”“根据权利要求1所述的……”“其中……”“还包括……”。
 - Avoid pure result-only limitations. Pair each effect with a technical means or interaction.
 - Avoid absolute wording such as“唯一”“必须”“完全消除”“必然提高”, unless the user provides exact legal/technical basis.
@@ -162,6 +164,8 @@ Write the specification to support the claims:
 
 For every complete patent draft, produce an abstract drawing plan and, when the environment supports file creation or image generation, generate at least one abstract drawing file.
 
+For method patents, especially calculation-method patents, the abstract drawing should default to an implementation-step flowchart. The flowchart must correspond to the concrete steps in the independent claim and detailed embodiments, for example S1 input/acquisition, S2 preprocessing, S3 core calculation or model update, S4 judgment/iteration/control, and S5 output/application. Use another drawing type only when the user explicitly requests it or when a device/system structure is clearly the main invention.
+
 Default abstract drawing choices:
 
 - Method/algorithm: flowchart showing input, preprocessing, core calculation/control, output, and feedback.
@@ -176,6 +180,8 @@ Drawing rules:
 - Use clear black-and-white line art suitable for patent figures.
 - Avoid decorative backgrounds, gradients, photorealism, brand marks, or unnecessary shading.
 - Number key elements consistently, for example 100 system, 110 input module, 120 calculation module.
+- For method and calculation-method flowcharts, number steps consistently, for example S1-S5 or 101-105, and ensure every box represents an implementable operation, not a vague goal.
+- The abstract drawing for a method patent should show the implementation sequence, branching/iteration conditions, input/output, and optional feedback loop when present.
 - Include a short“附图标记说明” in the specification when components are numbered.
 - The abstract drawing should show the core inventive relationship, not every embodiment.
 
@@ -212,7 +218,20 @@ If file creation or plotting tools are not available, output:
 
 #### Method Patents
 
-Focus on steps and technical interactions. Make step order flexible unless order is necessary. For numerical, control, or manufacturing methods, include input data, preprocessing, core computation/control, parameter update, output, and validation or feedback.
+Focus on concrete implementation steps and technical interactions. For a method patent, especially a calculation-method patent, always draft a stepwise embodiment using S1, S2, S3... labels unless the user provides another numbering convention.
+
+The stepwise implementation should include, as applicable:
+
+- S1: acquiring or defining input technical data, physical field variables, device states, boundary conditions, or working-condition parameters;
+- S2: preprocessing, filtering, normalization, mesh/lattice/domain initialization, feature extraction, or parameter construction;
+- S3: executing the core calculation, control, optimization, simulation, model inference, solver iteration, or update relationship;
+- S4: determining convergence, stability, threshold satisfaction, control adjustment, exception handling, or feedback correction;
+- S5: outputting a technical result, control instruction, design parameter, safety evaluation index, visualization result, or application decision;
+- S6 or later: optional validation, storage, display, actuator execution, parameter sweep, or integration with a device/system.
+
+Make step order flexible in claims unless order is technically necessary, but keep detailed embodiments operationally clear. Do not describe a calculation method only as“建立模型并计算结果”; specify the data, calculation relationship, iteration/update logic, judgment condition, and output technical object when supported.
+
+In the abstract drawing and figure descriptions for method patents, use the same S1-Sn implementation steps. The abstract drawing should normally be the method flowchart, not a device block diagram, unless the device/system structure is the primary inventive concept.
 
 #### Device Patents
 
