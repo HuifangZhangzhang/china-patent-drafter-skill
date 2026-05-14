@@ -1,0 +1,7 @@
+interface:
+  display_name: "China Patent Drafter"
+  short_description: "Draft Chinese invention patent application materials."
+  default_prompt: "Use $china-patent-drafter to turn my technical disclosure into a complete Chinese invention patent draft."
+
+policy:
+  allow_implicit_invocation: true
