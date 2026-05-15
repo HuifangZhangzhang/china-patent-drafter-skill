@@ -11,7 +11,9 @@ This skill is a drafting aid, not a patent-agent or lawyer substitute. Every sub
 
 ## Core Deliverable
 
-For a complete drafting request, output a full Chinese invention patent application draft with the following structure:
+Default to complete delivery. For any request to generate a complete Chinese invention patent application, produce both a reviewable Markdown draft and a final Word `.docx` document with figures and supporting files. Do not limit the output to Markdown unless the user explicitly says only Markdown, only text, no Word, no DOCX, or draft only.
+
+For a complete drafting request, output a full Chinese invention patent application with the following structure:
 
 1. 发明名称
 2. 摘要
@@ -29,7 +31,7 @@ For a complete drafting request, output a full Chinese invention patent applicat
 6. 可进一步强化的保护点建议
 7. 专业审查提示
 
-For a complete final-delivery request, also generate a final `.docx` Word document, not only Markdown text. The final Word version should include the same patent content plus all required figures, result plots, captions, figure-number references, and editable equations when formulas are involved.
+Always generate a final `.docx` Word document for complete patent-application requests, not only Markdown text. The final Word version should include the same patent content plus all required figures, result plots, captions, figure-number references, and editable equations when formulas are involved. Skip DOCX generation only when the user explicitly requests a Markdown-only/text-only draft.
 
 Default file layout for complete deliverables:
 
@@ -41,7 +43,7 @@ temp/patent_documents/<invention_slug>/scripts/
 temp/patent_documents/<invention_slug>/rendered_pages/
 ```
 
-If the user asks only for claims, abstract, optimization, or review, provide the requested part but still apply the same extraction, support, and non-fabrication rules.
+If the user asks only for claims, abstract, optimization, review, or a Markdown-only draft, provide the requested part but still apply the same extraction, support, and non-fabrication rules.
 
 ## Default Workflow
 
@@ -116,10 +118,12 @@ Do this only when the disclosure supports those categories.
 
 Use formal Chinese patent style. Avoid marketing language and conversational phrasing.
 
-When the user asks for a final filing-style document, create both:
+By default for complete patent drafting, create both:
 
 1. a readable drafting version in Markdown for quick review;
 2. a final Word `.docx` version with formal patent-document ordering, headings, figures, equations, and result plots.
+
+Create only the Markdown version when the user explicitly says not to create Word/DOCX or asks for Markdown-only output.
 
 The Word version must at least include:
 
@@ -244,7 +248,7 @@ If file creation or plotting tools are not available, output:
 
 ### 6. Generate the Final Word Document
 
-When a complete patent draft is requested, generate a final `.docx` document after the text and figures are ready. Use the local document-generation workflow available in the environment; if a Documents/DOCX skill or renderer is available, use it and render the result for visual QA.
+When a complete patent draft is requested, generate a final `.docx` document by default after the text and figures are ready. Use the local document-generation workflow available in the environment; if a Documents/DOCX skill or renderer is available, use it and render the result for visual QA. Treat DOCX generation as part of the default deliverable, not an optional extra, unless the user explicitly requests Markdown-only/text-only output.
 
 Word document requirements:
 
@@ -373,7 +377,7 @@ Before finalizing, verify:
 - Every claim term is supported by the specification.
 - The abstract drawing is generated, specified, or accompanied by reproducible code.
 - Any Python-generated patent figure/result plot has saved code and saved output paths when tools permit.
-- A final `.docx` Word version is generated for complete final-delivery requests.
+- A final `.docx` Word version is generated for complete patent-application requests unless the user explicitly requested Markdown-only/text-only output.
 - The Word version includes abstract, claims, beneficial effects, specification sections, figures, result plots/tables when applicable, and all required captions/references.
 - Formulas in the Word version are editable Word equations/OMML or MathType-compatible objects when possible, and no formula appears as乱码, corrupted encoding, or unreadable pasted text.
 - The Word document has been rendered and visually checked when DOCX rendering tools are available.

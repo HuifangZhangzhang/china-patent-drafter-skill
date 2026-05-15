@@ -27,6 +27,6 @@ Use $china-patent-drafter to generate a Chinese invention patent application dra
 
 ## Scope
 
-This skill helps generate Chinese invention patent drafts and final deliverables, including title, abstract, claims, beneficial effects, specification, abstract drawing guidance, final Word/DOCX documents, figures, result plots, editable equations, and optional Python code for patent figures or result plots.
+This skill defaults to complete delivery: for complete patent-application requests it generates both a Markdown draft and a final Word/DOCX package, including title, abstract, claims, beneficial effects, specification, abstract drawing guidance, figures, result plots, editable equations, and optional Python code for patent figures or result plots. It skips DOCX generation only when the user explicitly asks for Markdown-only or text-only output.
 
 It is not legal advice. Final filing documents should be reviewed by a qualified patent agent or patent lawyer before submission.
